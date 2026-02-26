@@ -60,7 +60,7 @@
                     <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="#layanan">Layanan</a>
                     <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="#tentang">Tentang Kami</a>
                 </nav>
-                <a href="{{ route('sign-in') }}" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-6 bg-primary hover:bg-primary-dark transition-colors text-white text-sm font-bold shadow-lg shadow-primary/20">
+                <a href="{{ route('login') }}" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-6 bg-primary hover:bg-primary-dark transition-colors text-white text-sm font-bold shadow-lg shadow-primary/20">
                     <span class="truncate">Masuk Siswa</span>
                 </a>
             </div>
@@ -94,7 +94,7 @@
                             Jangan pendam sendiri. Kami guru BK sekolahmu siap menjadi teman curhat dan mencari solusi bersama. Tanpa penghakiman.
                         </p>
                         <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
-                            <a href="{{ route('sign-up') }}" class="flex items-center justify-center gap-2 rounded-xl h-14 px-8 bg-primary hover:bg-primary-dark text-white text-base font-bold shadow-xl shadow-primary/25 transition-all hover:scale-105 active:scale-95">
+                            <a href="#" class="flex items-center justify-center gap-2 rounded-xl h-14 px-8 bg-primary hover:bg-primary-dark text-white text-base font-bold shadow-xl shadow-primary/25 transition-all hover:scale-105 active:scale-95">
                                 <span class="material-symbols-outlined">chat_bubble</span>
                                 <span>Curhat Yuk!</span>
                             </a>
@@ -267,7 +267,7 @@
                     <h2 class="text-3xl lg:text-5xl font-black mb-6">Siap untuk merasa lebih baik?</h2>
                     <p class="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">Tidak ada masalah yang terlalu kecil atau terlalu besar. Kami ada di sini untuk mendengarkanmu.</p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href="{{ route('sign-up') }}" class="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors flex items-center justify-center gap-2">
+                        <a href="#" class="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors flex items-center justify-center gap-2">
                             <span class="material-symbols-outlined">edit_square</span>
                             Isi Formulir Curhat
                         </a>

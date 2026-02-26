@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('group_counselings', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('academic_year_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('counselor_id')->constrained('users')->cascadeOnDelete();
+            $table->string('topic');
+            $table->text('description')->nullable();
+            $table->text('method')->nullable();
+            $table->dateTime('scheduled_at')->nullable();
+            $table->enum('status', ['scheduled', 'ongoing', 'completed'])->default('scheduled');
+            $table->text('result')->nullable();
+            $table->text('evaluation')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('group_counselings');
+    }
+};

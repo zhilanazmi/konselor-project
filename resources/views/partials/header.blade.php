@@ -327,8 +327,15 @@
         <div id="dropdownProfile" class="z-10 hidden bg-white dark:bg-neutral-700 rounded-lg shadow-lg dropdown-menu-sm p-3">
           <div class="py-3 px-4 rounded-lg bg-primary-50 dark:bg-primary-600/25 mb-4 flex items-center justify-between gap-2">
             <div>
-              <h6 class="text-lg text-neutral-900 font-semibold mb-0">Shahidul Islam</h6>
-              <span class="text-neutral-500">Admin</span>
+              <h6 class="text-lg text-neutral-900 font-semibold mb-0">{{ Auth::user()->name }}</h6>
+              <span class="text-neutral-500" @switch($user->role->value)
+                        @case('admin') bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 @break
+                        @case('guru_bk') bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 @break
+                        @case('guru') bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 @break
+                        @case('orang_tua') bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 @break
+                        @case('siswa') bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 @break
+                    @endswitch
+                >{{ $user->role->label() }}</span>
             </div>
             <button type="button" class="hover:text-danger-600">
               <iconify-icon icon="radix-icons:cross-1" class="icon text-xl"></iconify-icon> 
@@ -342,16 +349,16 @@
                   <iconify-icon icon="solar:user-linear" class="icon text-xl"></iconify-icon>  My Profile</a>
                 </li>
                 <li>
-                  <a class="text-black px-0 py-2 hover:text-primary-600 flex items-center gap-4" href="email.html"> 
-                  <iconify-icon icon="tabler:message-check" class="icon text-xl"></iconify-icon>  Inbox</a>
-                </li>
-                <li>
                   <a class="text-black px-0 py-2 hover:text-primary-600 flex items-center gap-4" href="company.html"> 
                   <iconify-icon icon="icon-park-outline:setting-two" class="icon text-xl"></iconify-icon>  Setting</a>
                 </li>
                 <li>
-                  <a class="text-black px-0 py-2 hover:text-danger-600 flex items-center gap-4" href="javascript:void(0)"> 
-                  <iconify-icon icon="lucide:power" class="icon text-xl"></iconify-icon>  Log Out</a>
+                  <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="text-black px-0 py-2 hover:text-primary-600 flex items-center gap-4">
+                      <iconify-icon icon="lucide:power" class="icon text-xl"></iconify-icon>  Log Out
+                    </button>
+                  </form>
                 </li>
               </ul>
             </div>
