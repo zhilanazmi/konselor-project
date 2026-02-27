@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,5 +28,9 @@ Route::middleware('auth')->group(function () {
     // Admin Routes
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::resource('academic-years', AcademicYearController::class)->except(['show']);
+        Route::resource('students', StudentController::class)->except(['show']);
+        Route::resource('classrooms', ClassroomController::class);
+        Route::post('classrooms/{classroom}/students', [ClassroomController::class, 'addStudents'])->name('classrooms.add-students');
+        Route::delete('classrooms/{classroom}/students/{student}', [ClassroomController::class, 'removeStudent'])->name('classrooms.remove-student');
     });
 });

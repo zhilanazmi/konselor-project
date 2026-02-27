@@ -1,0 +1,30 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\AcademicYear;
+use App\Models\Student;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\IndividualCounseling>
+ */
+class IndividualCounselingFactory extends Factory
+{
+    /**
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'academic_year_id' => AcademicYear::factory(),
+            'counselor_id' => User::factory()->guruBk(),
+            'student_id' => Student::factory(),
+            'scheduled_at' => fake()->dateTimeBetween('now', '+1 month'),
+            'status' => fake()->randomElement(['scheduled', 'ongoing', 'completed', 'followed_up']),
+            'category' => fake()->randomElement(['pribadi', 'sosial', 'belajar', 'karir']),
+            'problem_description' => fake()->paragraph(),
+        ];
+    }
+}

@@ -29,6 +29,18 @@
             <span>Tahun Ajaran</span>
           </a>
         </li>
+        <li>
+          <a href="{{ route('admin.classrooms.index') }}" class="{{ request()->routeIs('admin.classrooms.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:buildings-bold" class="menu-icon"></iconify-icon>
+            <span>Kelas</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('admin.students.index') }}" class="{{ request()->routeIs('admin.students.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:users-group-rounded-bold" class="menu-icon"></iconify-icon>
+            <span>Siswa</span>
+          </a>
+        </li>
       @endif
 
     </ul>
