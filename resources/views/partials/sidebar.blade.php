@@ -41,6 +41,12 @@
             <span>Siswa</span>
           </a>
         </li>
+        <li>
+          <a href="{{ route('admin.teachers.index') }}" class="{{ request()->routeIs('admin.teachers.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:user-id-bold" class="menu-icon"></iconify-icon>
+            <span>Guru / Wali Kelas</span>
+          </a>
+        </li>
       @endif
 
     </ul>
