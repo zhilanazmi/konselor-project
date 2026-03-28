@@ -47,6 +47,12 @@
             <span>Guru / Wali Kelas</span>
           </a>
         </li>
+        <li>
+          <a href="{{ route('admin.guardians.index') }}" class="{{ request()->routeIs('admin.guardians.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:users-group-two-rounded-bold" class="menu-icon"></iconify-icon>
+            <span>Orang Tua</span>
+          </a>
+        </li>
       @endif
 
     </ul>
