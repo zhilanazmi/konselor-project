@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuardianController;
+use App\Http\Controllers\IndividualCounselingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -38,5 +39,10 @@ Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class)->except(['show']);
         Route::post('classrooms/{classroom}/students', [ClassroomController::class, 'addStudents'])->name('classrooms.add-students');
         Route::delete('classrooms/{classroom}/students/{student}', [ClassroomController::class, 'removeStudent'])->name('classrooms.remove-student');
+    });
+
+    // Guru BK Routes
+    Route::middleware('role:guru_bk')->prefix('guru-bk')->name('guru-bk.')->group(function () {
+        Route::resource('individual-counselings', IndividualCounselingController::class);
     });
 });

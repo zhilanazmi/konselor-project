@@ -63,6 +63,18 @@
         </li>
       @endif
 
+      {{-- Guru BK: Layanan Konseling --}}
+      @if(auth()->user()->role === \App\Enums\UserRole::GuruBk)
+        <li class="sidebar-menu-group-title">Layanan Konseling</li>
+        <li>
+          <a href="{{ route('guru-bk.individual-counselings.index') }}" class="{{ request()->routeIs('guru-bk.individual-counselings.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:user-speak-bold" class="menu-icon"></iconify-icon>
+            <span>Konseling Individual</span>
+          </a>
+        </li>
+      @endif
+
     </ul>
   </div>
 </aside>
+
