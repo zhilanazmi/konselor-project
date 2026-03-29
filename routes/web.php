@@ -4,6 +4,7 @@ use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GroupCounselingController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\IndividualCounselingController;
 use App\Http\Controllers\StudentController;
@@ -44,5 +45,9 @@ Route::middleware('auth')->group(function () {
     // Guru BK Routes
     Route::middleware('role:guru_bk')->prefix('guru-bk')->name('guru-bk.')->group(function () {
         Route::resource('individual-counselings', IndividualCounselingController::class);
+        Route::resource('group-counselings', GroupCounselingController::class);
+        Route::post('group-counselings/{groupCounseling}/participants', [GroupCounselingController::class, 'addParticipant'])->name('group-counselings.participants.store');
+        Route::delete('group-counselings/{groupCounseling}/participants/{student}', [GroupCounselingController::class, 'removeParticipant'])->name('group-counselings.participants.destroy');
+        Route::patch('group-counselings/{groupCounseling}/participants/{student}/notes', [GroupCounselingController::class, 'updateParticipantNotes'])->name('group-counselings.participants.update-notes');
     });
 });

@@ -72,6 +72,12 @@
             <span>Konseling Individual</span>
           </a>
         </li>
+        <li>
+          <a href="{{ route('guru-bk.group-counselings.index') }}" class="{{ request()->routeIs('guru-bk.group-counselings.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:users-group-rounded-bold" class="menu-icon"></iconify-icon>
+            <span>Konseling Kelompok</span>
+          </a>
+        </li>
       @endif
 
     </ul>
