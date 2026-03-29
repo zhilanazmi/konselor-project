@@ -53,6 +53,14 @@
             <span>Orang Tua</span>
           </a>
         </li>
+
+        <li class="sidebar-menu-group-title">Pengaturan</li>
+        <li>
+          <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:shield-user-bold" class="menu-icon"></iconify-icon>
+            <span>Akun User</span>
+          </a>
+        </li>
       @endif
 
     </ul>
