@@ -78,6 +78,12 @@
             <span>Konseling Kelompok</span>
           </a>
         </li>
+        <li>
+          <a href="{{ route('guru-bk.homeroom-consultations.index') }}" class="{{ request()->routeIs('guru-bk.homeroom-consultations.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:user-speak-bold" class="menu-icon"></iconify-icon>
+            <span>Konsultasi Wali Kelas</span>
+          </a>
+        </li>
       @endif
 
     </ul>

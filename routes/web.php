@@ -6,6 +6,7 @@ use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupCounselingController;
 use App\Http\Controllers\GuardianController;
+use App\Http\Controllers\HomeroomConsultationController;
 use App\Http\Controllers\IndividualCounselingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -49,5 +50,6 @@ Route::middleware('auth')->group(function () {
         Route::post('group-counselings/{groupCounseling}/participants', [GroupCounselingController::class, 'addParticipant'])->name('group-counselings.participants.store');
         Route::delete('group-counselings/{groupCounseling}/participants/{student}', [GroupCounselingController::class, 'removeParticipant'])->name('group-counselings.participants.destroy');
         Route::patch('group-counselings/{groupCounseling}/participants/{student}/notes', [GroupCounselingController::class, 'updateParticipantNotes'])->name('group-counselings.participants.update-notes');
+        Route::resource('homeroom-consultations', HomeroomConsultationController::class);
     });
 });
