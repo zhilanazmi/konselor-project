@@ -12,11 +12,11 @@
     <div class="lg:w-1/2 py-8 px-6 flex flex-col justify-center">
         <div class="lg:max-w-[464px] mx-auto w-full">
             <div>
-                <a href="{{ url('/') }}" class="mb-2.5 max-w-[290px]">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="">
-                </a>
-                <h4 class="mb-3">Masuk ke Akun Anda</h4>
-                <p class="mb-8 text-secondary-light text-lg">Selamat datang kembali! Silakan masukkan detail login Anda.</p>
+                <center><a href="{{ url('/') }}" class="mb-2.5 max-w-[290px]">
+                    <img src="{{ asset('assets/images/ok - Copy (4).png') }}" alt="">
+                </a></center>
+                <center><h4 class="mb-3">Masuk ke Akun Anda</h4></center>
+               <center> <p class="mb-8 text-secondary-light text-lg">Selamat datang kembali! Silakan masukkan detail login Anda.</p></center>
             </div>
 
             @if ($errors->any())
