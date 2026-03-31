@@ -84,6 +84,18 @@
             <span>Konsultasi Wali Kelas</span>
           </a>
         </li>
+        <li>
+          <a href="{{ route('guru-bk.subject-teacher-consultations.index') }}" class="{{ request()->routeIs('guru-bk.subject-teacher-consultations.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:book-bold" class="menu-icon"></iconify-icon>
+            <span>Konsultasi Guru Mapel</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('guru-bk.parent-consultations.index') }}" class="{{ request()->routeIs('guru-bk.parent-consultations.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:users-group-rounded-bold" class="menu-icon"></iconify-icon>
+            <span>Konsultasi Orang Tua</span>
+          </a>
+        </li>
       @endif
 
     </ul>

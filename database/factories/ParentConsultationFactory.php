@@ -23,10 +23,12 @@ class ParentConsultationFactory extends Factory
             'counselor_id' => User::factory()->guruBk(),
             'guardian_id' => Guardian::factory(),
             'student_id' => Student::factory(),
-            'scheduled_at' => fake()->dateTimeBetween('now', '+1 month'),
+            'scheduled_at' => fake()->dateTimeBetween('-1 month', '+1 month'),
             'status' => fake()->randomElement(['requested', 'scheduled', 'completed']),
             'requested_by' => fake()->randomElement(['guru_bk', 'orang_tua']),
-            'topic' => fake()->sentence(),
+            'topic' => fake()->paragraph(),
+            'result' => fake()->optional()->paragraph(),
+            'agreement' => fake()->optional()->paragraph(),
         ];
     }
 }

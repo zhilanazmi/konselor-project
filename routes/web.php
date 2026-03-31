@@ -8,7 +8,9 @@ use App\Http\Controllers\GroupCounselingController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\HomeroomConsultationController;
 use App\Http\Controllers\IndividualCounselingController;
+use App\Http\Controllers\ParentConsultationController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SubjectTeacherConsultationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -51,5 +53,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('group-counselings/{groupCounseling}/participants/{student}', [GroupCounselingController::class, 'removeParticipant'])->name('group-counselings.participants.destroy');
         Route::patch('group-counselings/{groupCounseling}/participants/{student}/notes', [GroupCounselingController::class, 'updateParticipantNotes'])->name('group-counselings.participants.update-notes');
         Route::resource('homeroom-consultations', HomeroomConsultationController::class);
+        Route::resource('subject-teacher-consultations', SubjectTeacherConsultationController::class);
+        Route::resource('parent-consultations', ParentConsultationController::class);
     });
 });
