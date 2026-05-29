@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\CounselingServiceType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class IndividualCounseling extends Model
 {
@@ -19,10 +21,13 @@ class IndividualCounseling extends Model
         'student_id',
         'scheduled_at',
         'status',
+        'service_type',
         'category',
         'problem_description',
         'approach',
         'result',
+        'evaluation',
+        'follow_up',
         'follow_up_plan',
     ];
 
@@ -33,6 +38,7 @@ class IndividualCounseling extends Model
     {
         return [
             'scheduled_at' => 'datetime',
+            'service_type' => CounselingServiceType::class,
         ];
     }
 
@@ -49,5 +55,10 @@ class IndividualCounseling extends Model
     public function student(): BelongsTo
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public function documents(): MorphMany
+    {
+        return $this->morphMany(CounselingDocument::class, 'counseling');
     }
 }

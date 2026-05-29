@@ -20,7 +20,7 @@
         </a>
       </li>
 
-      {{-- Admin: Data Master --}}
+      {{-- Admin --}}
       @if(auth()->user()->role === \App\Enums\UserRole::Admin)
         <li class="sidebar-menu-group-title">Data Master</li>
         <li>
@@ -61,26 +61,34 @@
             <span>Akun User</span>
           </a>
         </li>
+        <li>
+          <a href="{{ route('admin.school-settings.edit') }}" class="{{ request()->routeIs('admin.school-settings.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:settings-bold" class="menu-icon"></iconify-icon>
+            <span>Pengaturan Sekolah</span>
+          </a>
+        </li>
       @endif
 
-      {{-- Guru BK: Layanan Konseling --}}
+      {{-- Guru BK --}}
       @if(auth()->user()->role === \App\Enums\UserRole::GuruBk)
-        <li class="sidebar-menu-group-title">Layanan Konseling</li>
+        <li class="sidebar-menu-group-title">Layanan Bimbingan</li>
         <li>
           <a href="{{ route('guru-bk.individual-counselings.index') }}" class="{{ request()->routeIs('guru-bk.individual-counselings.*') ? 'active-page' : '' }}">
             <iconify-icon icon="solar:user-speak-bold" class="menu-icon"></iconify-icon>
-            <span>Konseling Individual</span>
+            <span>Bimbingan Individu</span>
           </a>
         </li>
         <li>
           <a href="{{ route('guru-bk.group-counselings.index') }}" class="{{ request()->routeIs('guru-bk.group-counselings.*') ? 'active-page' : '' }}">
             <iconify-icon icon="solar:users-group-rounded-bold" class="menu-icon"></iconify-icon>
-            <span>Konseling Kelompok</span>
+            <span>Bimbingan Kelompok/Klasikal</span>
           </a>
         </li>
+
+        <li class="sidebar-menu-group-title">Konsultasi</li>
         <li>
           <a href="{{ route('guru-bk.homeroom-consultations.index') }}" class="{{ request()->routeIs('guru-bk.homeroom-consultations.*') ? 'active-page' : '' }}">
-            <iconify-icon icon="solar:user-speak-bold" class="menu-icon"></iconify-icon>
+            <iconify-icon icon="solar:buildings-bold" class="menu-icon"></iconify-icon>
             <span>Konsultasi Wali Kelas</span>
           </a>
         </li>
@@ -92,8 +100,33 @@
         </li>
         <li>
           <a href="{{ route('guru-bk.parent-consultations.index') }}" class="{{ request()->routeIs('guru-bk.parent-consultations.*') ? 'active-page' : '' }}">
-            <iconify-icon icon="solar:users-group-rounded-bold" class="menu-icon"></iconify-icon>
+            <iconify-icon icon="solar:users-group-two-rounded-bold" class="menu-icon"></iconify-icon>
             <span>Konsultasi Orang Tua</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('guru-bk.external-consultations.index') }}" class="{{ request()->routeIs('guru-bk.external-consultations.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:user-speak-rounded-bold" class="menu-icon"></iconify-icon>
+            <span>Konsultasi Pihak Luar</span>
+          </a>
+        </li>
+
+        <li class="sidebar-menu-group-title">Konten Website</li>
+        <li>
+          <a href="{{ route('guru-bk.popular-topics.index') }}" class="{{ request()->routeIs('guru-bk.popular-topics.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:star-bold" class="menu-icon"></iconify-icon>
+            <span>Topik Populer</span>
+          </a>
+        </li>
+      @endif
+
+      {{-- Wali Kelas --}}
+      @if(auth()->user()->role === \App\Enums\UserRole::WaliKelas)
+        <li class="sidebar-menu-group-title">Konsultasi Saya</li>
+        <li>
+          <a href="{{ route('guru-bk.homeroom-consultations.index') }}" class="{{ request()->routeIs('guru-bk.homeroom-consultations.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:document-text-bold" class="menu-icon"></iconify-icon>
+            <span>Riwayat Konsultasi</span>
           </a>
         </li>
       @endif
@@ -101,4 +134,3 @@
     </ul>
   </div>
 </aside>
-

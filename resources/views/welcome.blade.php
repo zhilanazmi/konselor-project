@@ -174,54 +174,70 @@
                         </a>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <!-- Service Card 1 -->
-                        <a class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-white dark:bg-surface-dark shadow-sm hover:shadow-xl transition-all" href="#">
-                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Student looking stressed over textbooks" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDiK9807x5NkctZ1dcj-mRfVBdZcOun1fpR0tSr0ppAE5Ly85eGHRjqiDGfGgSKcdMJJuCQ6RjIiXWUeqERgwKhNcn_mY38uAHuTWfMZdmLOSPEn05gZSRqz2vPb_x0uzip66dqdCr2wiUD03SUdwnl5C2RiPwGCBQlSQyteAfdBH2rXLBklrA1JSGtQ73tAPgHfjPAd_k1Jd_sOJMoMjEJmSg6R0NDPlA2J6dvtNOfMH2Nvn4zr8n95JFIa9wDCsuouVo8ENyS1ntQ');"></div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                            <div class="absolute bottom-0 left-0 p-6 w-full">
-                                <div class="bg-primary w-10 h-10 rounded-lg flex items-center justify-center text-white mb-3">
-                                    <span class="material-symbols-outlined">school</span>
+                        @forelse($popularTopics as $topic)
+                            <!-- Service Card -->
+                            <a class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-white dark:bg-surface-dark shadow-sm hover:shadow-xl transition-all" href="#">
+                                @if($topic->image)
+                                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('{{ asset('storage/' . $topic->image) }}');"></div>
+                                @else
+                                    <div class="absolute inset-0 transition-transform duration-700 group-hover:scale-110" style="background: linear-gradient(135deg, {{ $topic->icon_color }}20 0%, {{ $topic->icon_color }}40 100%);"></div>
+                                @endif
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 p-6 w-full">
+                                    <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white mb-3" style="background-color: {{ $topic->icon_color }};">
+                                        <span class="material-symbols-outlined">{{ $topic->icon ?? 'school' }}</span>
+                                    </div>
+                                    <h3 class="text-white text-xl font-bold mb-1">{{ $topic->title }}</h3>
+                                    <p class="text-white/80 text-sm line-clamp-2">{{ $topic->description }}</p>
                                 </div>
-                                <h3 class="text-white text-xl font-bold mb-1">Masalah Belajar</h3>
-                                <p class="text-white/80 text-sm line-clamp-2">Susah fokus, nilai turun, atau bingung pilih jurusan?</p>
-                            </div>
-                        </a>
-                        <!-- Service Card 2 -->
-                        <a class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-white dark:bg-surface-dark shadow-sm hover:shadow-xl transition-all" href="#">
-                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Group of teenagers talking, suggestive of social interaction" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBshc29BA6K3wcHq2SihvMg35lMsptLdcx8pjdQtT9iwJ78d2Fx_Q2cHpBAKPPTMA5OiH5_HMNaa-g69t3UzC-SmHN5CHV7M3k9PM_L7WK0JZD7RAVHdk2rSQkkgHY_02HCKk6NLxGMT-z5m9BsvDFhvXIagKv4R4NU1SwLU7eSJj7-xNl090-yedUPl34MGC4lxw3LXPmwQyo_Vco2p_cQiSRO3LJ4X77EkrCXSt4LXIW7dboCwDwmsF-ZjVzJo-5IrSnHbDxgWLpK');"></div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                            <div class="absolute bottom-0 left-0 p-6 w-full">
-                                <div class="bg-red-500 w-10 h-10 rounded-lg flex items-center justify-center text-white mb-3">
-                                    <span class="material-symbols-outlined">groups</span>
+                            </a>
+                        @empty
+                            <!-- Default Cards if no topics in database -->
+                            <a class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-white dark:bg-surface-dark shadow-sm hover:shadow-xl transition-all" href="#">
+                                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDiK9807x5NkctZ1dcj-mRfVBdZcOun1fpR0tSr0ppAE5Ly85eGHRjqiDGfGgSKcdMJJuCQ6RjIiXWUeqERgwKhNcn_mY38uAHuTWfMZdmLOSPEn05gZSRqz2vPb_x0uzip66dqdCr2wiUD03SUdwnl5C2RiPwGCBQlSQyteAfdBH2rXLBklrA1JSGtQ73tAPgHfjPAd_k1Jd_sOJMoMjEJmSg6R0NDPlA2J6dvtNOfMH2Nvn4zr8n95JFIa9wDCsuouVo8ENyS1ntQ');"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 p-6 w-full">
+                                    <div class="bg-primary w-10 h-10 rounded-lg flex items-center justify-center text-white mb-3">
+                                        <span class="material-symbols-outlined">school</span>
+                                    </div>
+                                    <h3 class="text-white text-xl font-bold mb-1">Masalah Belajar</h3>
+                                    <p class="text-white/80 text-sm line-clamp-2">Susah fokus, nilai turun, atau bingung pilih jurusan?</p>
                                 </div>
-                                <h3 class="text-white text-xl font-bold mb-1">Bullying & Teman</h3>
-                                <p class="text-white/80 text-sm line-clamp-2">Dikucilkan, diejek, atau punya masalah dengan teman?</p>
-                            </div>
-                        </a>
-                        <!-- Service Card 3 -->
-                        <a class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-white dark:bg-surface-dark shadow-sm hover:shadow-xl transition-all" href="#">
-                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Parent and child having a conversation" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCwTo_iSOPkmF5jjKYKk2Gd0kFJBvrmXPyNvX_si9_sFM9rA4amghKcwqU9nwJ-GZN_hvV6W43tchEKcv8gf0AqLO_rkVge2V5nWTDN6lmPPNlWnKoqk_8xZLE8Cz0yGw0tMBMURRnrwg9qss97v2OjHTDayao5DaMsn1JPpoAvGt6CdIsO7CH696XCEfIySFVIVb3mX86s_dgIangbpsZaKwxtFs57hxBsqBdC1mN72Onq1fsEDIKt5-z0NqdRTLCiJdGRae9e5hjz');"></div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                            <div class="absolute bottom-0 left-0 p-6 w-full">
-                                <div class="bg-orange-500 w-10 h-10 rounded-lg flex items-center justify-center text-white mb-3">
-                                    <span class="material-symbols-outlined">home</span>
+                            </a>
+                            <a class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-white dark:bg-surface-dark shadow-sm hover:shadow-xl transition-all" href="#">
+                                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBshc29BA6K3wcHq2SihvMg35lMsptLdcx8pjdQtT9iwJ78d2Fx_Q2cHpBAKPPTMA5OiH5_HMNaa-g69t3UzC-SmHN5CHV7M3k9PM_L7WK0JZD7RAVHdk2rSQkkgHY_02HCKk6NLxGMT-z5m9BsvDFhvXIagKv4R4NU1SwLU7eSJj7-xNl090-yedUPl34MGC4lxw3LXPmwQyo_Vco2p_cQiSRO3LJ4X77EkrCXSt4LXIW7dboCwDwmsF-ZjVzJo-5IrSnHbDxgWLpK');"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 p-6 w-full">
+                                    <div class="bg-red-500 w-10 h-10 rounded-lg flex items-center justify-center text-white mb-3">
+                                        <span class="material-symbols-outlined">groups</span>
+                                    </div>
+                                    <h3 class="text-white text-xl font-bold mb-1">Bullying & Teman</h3>
+                                    <p class="text-white/80 text-sm line-clamp-2">Dikucilkan, diejek, atau punya masalah dengan teman?</p>
                                 </div>
-                                <h3 class="text-white text-xl font-bold mb-1">Keluarga</h3>
-                                <p class="text-white/80 text-sm line-clamp-2">Masalah di rumah yang bikin kamu nggak nyaman.</p>
-                            </div>
-                        </a>
-                        <!-- Service Card 4 -->
-                        <a class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-white dark:bg-surface-dark shadow-sm hover:shadow-xl transition-all" href="#">
-                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Person planning on a notebook, symbolizing career planning" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCz0lYR_7RlqFzL_zYv97W3PU8rvy441vA2ZGeVRFBTXMZQCuVKF07llROpYAlhQEAHFwBY1NPNSXjDJXmtpmcxcdL1rN_YRtnLz2_R8T4ZyFu-GdnNAeMP7JewFOcbzbd_JAr5ovQ4m4OsIo3RVtin4AD5H73yzAu6eQP99H7FLp9edpmqqHTjImDBa47VZLIl4Lj_5cafP81n2lcURNam_ZaXTw0fABvUPEi_q1-lgMGIPUwsK4r_Hu-NdrjMlVPMpNpkO_kAHLxy');"></div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                            <div class="absolute bottom-0 left-0 p-6 w-full">
-                                <div class="bg-secondary w-10 h-10 rounded-lg flex items-center justify-center text-white mb-3">
-                                    <span class="material-symbols-outlined">rocket_launch</span>
+                            </a>
+                            <a class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-white dark:bg-surface-dark shadow-sm hover:shadow-xl transition-all" href="#">
+                                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCwTo_iSOPkmF5jjKYKk2Gd0kFJBvrmXPyNvX_si9_sFM9rA4amghKcwqU9nwJ-GZN_hvV6W43tchEKcv8gf0AqLO_rkVge2V5nWTDN6lmPPNlWnKoqk_8xZLE8Cz0yGw0tMBMURRnrwg9qss97v2OjHTDayao5DaMsn1JPpoAvGt6CdIsO7CH696XCEfIySFVIVb3mX86s_dgIangbpsZaKwxtFs57hxBsqBdC1mN72Onq1fsEDIKt5-z0NqdRTLCiJdGRae9e5hjz');"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 p-6 w-full">
+                                    <div class="bg-orange-500 w-10 h-10 rounded-lg flex items-center justify-center text-white mb-3">
+                                        <span class="material-symbols-outlined">home</span>
+                                    </div>
+                                    <h3 class="text-white text-xl font-bold mb-1">Keluarga</h3>
+                                    <p class="text-white/80 text-sm line-clamp-2">Masalah di rumah yang bikin kamu nggak nyaman.</p>
                                 </div>
-                                <h3 class="text-white text-xl font-bold mb-1">Masa Depan</h3>
-                                <p class="text-white/80 text-sm line-clamp-2">Bingung mau lanjut SMA atau SMK mana?</p>
-                            </div>
-                        </a>
+                            </a>
+                            <a class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-white dark:bg-surface-dark shadow-sm hover:shadow-xl transition-all" href="#">
+                                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCz0lYR_7RlqFzL_zYv97W3PU8rvy441vA2ZGeVRFBTXMZQCuVKF07llROpYAlhQEAHFwBY1NPNSXjDJXmtpmcxcdL1rN_YRtnLz2_R8T4ZyFu-GdnNAeMP7JewFOcbzbd_JAr5ovQ4m4OsIo3RVtin4AD5H73yzAu6eQP99H7FLp9edpmqqHTjImDBa47VZLIl4Lj_5cafP81n2lcURNam_ZaXTw0fABvUPEi_q1-lgMGIPUwsK4r_Hu-NdrjMlVPMpNpkO_kAHLxy');"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 p-6 w-full">
+                                    <div class="bg-secondary w-10 h-10 rounded-lg flex items-center justify-center text-white mb-3">
+                                        <span class="material-symbols-outlined">rocket_launch</span>
+                                    </div>
+                                    <h3 class="text-white text-xl font-bold mb-1">Masa Depan</h3>
+                                    <p class="text-white/80 text-sm line-clamp-2">Bingung mau lanjut SMA atau SMK mana?</p>
+                                </div>
+                            </a>
+                        @endforelse
                     </div>
                 </div>
             </section>

@@ -45,6 +45,15 @@
                 </select>
             </div>
             <div class="min-w-[140px]">
+                <label class="form-label text-xs">Jenis Layanan</label>
+                <select name="service_type" class="form-control !rounded-lg">
+                    <option value="">Semua Jenis</option>
+                    <option value="group" {{ request('service_type') === 'group' ? 'selected' : '' }}>Kelompok</option>
+                    <option value="classroom" {{ request('service_type') === 'classroom' ? 'selected' : '' }}>Klasikal</option>
+                    <option value="large_class" {{ request('service_type') === 'large_class' ? 'selected' : '' }}>Kelas Besar</option>
+                </select>
+            </div>
+            <div class="min-w-[140px]">
                 <label class="form-label text-xs">Status</label>
                 <select name="status" class="form-control !rounded-lg">
                     <option value="">Semua Status</option>
@@ -58,7 +67,7 @@
                     <iconify-icon icon="ion:search-outline" class="text-xl"></iconify-icon>
                     Filter
                 </button>
-                @if(request()->hasAny(['search', 'status', 'academic_year_id']))
+                @if(request()->hasAny(['search', 'status', 'academic_year_id', 'service_type']))
                     <a href="{{ route('guru-bk.group-counselings.index') }}" class="btn btn-outline-secondary !rounded-lg">Reset</a>
                 @endif
             </div>
@@ -72,6 +81,7 @@
                     <tr>
                         <th scope="col" class="!text-center w-12">No</th>
                         <th scope="col">Topik</th>
+                        <th scope="col">Jenis Layanan</th>
                         <th scope="col">Tahun Ajaran</th>
                         <th scope="col" class="!text-center">Peserta</th>
                         <th scope="col" class="!text-center">Status</th>
@@ -88,6 +98,23 @@
                                 @if($counseling->method)
                                     <p class="text-xs text-neutral-400 mb-0 mt-0.5">{{ Str::limit($counseling->method, 50) }}</p>
                                 @endif
+                            </td>
+                            <td>
+                                @php
+                                    $serviceTypeColors = [
+                                        'group' => 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400',
+                                        'classroom' => 'bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400',
+                                        'large_class' => 'bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400',
+                                    ];
+                                    $serviceTypeLabels = [
+                                        'group' => 'Bimbingan Kelompok',
+                                        'classroom' => 'Bimbingan Klasikal',
+                                        'large_class' => 'Bimbingan Kelas Besar',
+                                    ];
+                                @endphp
+                                <span class="px-2 py-0.5 rounded text-xs font-medium {{ $serviceTypeColors[$counseling->service_type] ?? 'bg-neutral-100 text-neutral-600' }}">
+                                    {{ $serviceTypeLabels[$counseling->service_type] ?? $counseling->service_type }}
+                                </span>
                             </td>
                             <td>{{ $counseling->academicYear->name }}</td>
                             <td class="!text-center">
@@ -136,7 +163,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="!text-center py-8">
+                            <td colspan="8" class="!text-center py-8">
                                 <div class="flex flex-col items-center gap-2 text-neutral-400">
                                     <iconify-icon icon="solar:folder-open-bold" class="text-4xl"></iconify-icon>
                                     <p class="mb-0">Belum ada data konseling kelompok.</p>

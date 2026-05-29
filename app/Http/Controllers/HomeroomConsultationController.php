@@ -5,15 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreHomeroomConsultationRequest;
 use App\Http\Requests\UpdateHomeroomConsultationRequest;
 use App\Models\AcademicYear;
+use App\Models\CounselingDocument;
 use App\Models\HomeroomConsultation;
+use App\Models\SchoolSetting;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Services\CounselingDocumentService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class HomeroomConsultationController extends Controller
 {
+    public function __construct(private readonly CounselingDocumentService $documentService) {}
+
     public function index(Request $request): View
     {
         $consultations = HomeroomConsultation::query()
@@ -59,22 +64,31 @@ class HomeroomConsultationController extends Controller
 
     public function store(StoreHomeroomConsultationRequest $request): RedirectResponse
     {
-        $validated = $request->validated();
+        $validated = $request->safe()->except(['documents']);
         $validated['counselor_id'] = auth()->id();
 
-        HomeroomConsultation::query()->create($validated);
+        $consultation = HomeroomConsultation::query()->create($validated);
+
+        if ($request->hasFile('documents')) {
+            $this->documentService->storeDocuments($consultation, $request->file('documents'));
+        }
 
         return redirect()
-            ->route('guru-bk.homeroom-consultations.index')
+            ->route('guru-bk.homeroom-consultations.show', $consultation)
             ->with('success', 'Data konsultasi wali kelas berhasil ditambahkan.');
     }
 
     public function show(HomeroomConsultation $homeroomConsultation): View
     {
-        $homeroomConsultation->load(['teacher', 'student', 'counselor', 'academicYear']);
+        $homeroomConsultation->load(['teacher', 'student', 'counselor', 'academicYear', 'documents']);
+
+        $principalName = SchoolSetting::getPrincipalName();
+        $principalNip = SchoolSetting::getPrincipalNip();
 
         return view('homeroom-consultations.show', [
             'consultation' => $homeroomConsultation,
+            'principalName' => $principalName,
+            'principalNip' => $principalNip,
             'pageTitle' => 'Detail Konsultasi Wali Kelas',
             'activePage' => 'Konsultasi Wali Kelas',
         ]);
@@ -82,6 +96,7 @@ class HomeroomConsultationController extends Controller
 
     public function edit(HomeroomConsultation $homeroomConsultation): View
     {
+        $homeroomConsultation->load('documents');
         $academicYears = AcademicYear::query()->orderByDesc('start_date')->get();
         $teachers = Teacher::query()->with('homeroomClassrooms')->orderBy('full_name')->get();
         $students = Student::query()->orderBy('full_name')->get();
@@ -98,7 +113,11 @@ class HomeroomConsultationController extends Controller
 
     public function update(UpdateHomeroomConsultationRequest $request, HomeroomConsultation $homeroomConsultation): RedirectResponse
     {
-        $homeroomConsultation->update($request->validated());
+        $homeroomConsultation->update($request->safe()->except(['documents']));
+
+        if ($request->hasFile('documents')) {
+            $this->documentService->storeDocuments($homeroomConsultation, $request->file('documents'));
+        }
 
         return redirect()
             ->route('guru-bk.homeroom-consultations.show', $homeroomConsultation)
@@ -107,10 +126,32 @@ class HomeroomConsultationController extends Controller
 
     public function destroy(HomeroomConsultation $homeroomConsultation): RedirectResponse
     {
+        $this->documentService->deleteAllDocuments($homeroomConsultation);
         $homeroomConsultation->delete();
 
         return redirect()
             ->route('guru-bk.homeroom-consultations.index')
             ->with('success', 'Data konsultasi wali kelas berhasil dihapus.');
+    }
+
+    public function destroyDocument(HomeroomConsultation $homeroomConsultation, CounselingDocument $document): RedirectResponse
+    {
+        $this->documentService->deleteDocument($document);
+
+        return back()->with('success', 'Dokumen berhasil dihapus.');
+    }
+
+    public function printPdf(HomeroomConsultation $homeroomConsultation): View
+    {
+        $homeroomConsultation->load(['teacher', 'student', 'counselor', 'academicYear', 'documents']);
+
+        $principalName = SchoolSetting::getPrincipalName();
+        $principalNip = SchoolSetting::getPrincipalNip();
+
+        return view('homeroom-consultations.pdf', [
+            'consultation' => $homeroomConsultation,
+            'principalName' => $principalName,
+            'principalNip' => $principalNip,
+        ]);
     }
 }

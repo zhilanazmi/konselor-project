@@ -4,12 +4,13 @@ namespace Database\Factories;
 
 use App\Models\AcademicYear;
 use App\Models\Student;
+use App\Models\SubjectTeacherConsultation;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SubjectTeacherConsultation>
+ * @extends Factory<SubjectTeacherConsultation>
  */
 class SubjectTeacherConsultationFactory extends Factory
 {

@@ -8,7 +8,7 @@
         <h6 class="text-lg font-semibold mb-0">Form Tambah Konsultasi Wali Kelas</h6>
     </div>
     <div class="card-body">
-        <form action="{{ route('guru-bk.homeroom-consultations.store') }}" method="POST">
+        <form action="{{ route('guru-bk.homeroom-consultations.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -84,9 +84,21 @@
                 <textarea id="recommendation" name="recommendation" rows="3" class="form-control" placeholder="Rekomendasi yang diberikan kepada wali kelas...">{{ old('recommendation') }}</textarea>
             </div>
 
-            <div class="mb-6">
+            <div class="mb-4">
+                <label for="evaluation" class="form-label">Evaluasi</label>
+                <textarea id="evaluation" name="evaluation" rows="3" class="form-control" placeholder="Evaluasi hasil konsultasi...">{{ old('evaluation') }}</textarea>
+            </div>
+
+            <div class="mb-4">
                 <label for="follow_up" class="form-label">Tindak Lanjut</label>
                 <textarea id="follow_up" name="follow_up" rows="3" class="form-control" placeholder="Rencana tindak lanjut dari hasil konsultasi...">{{ old('follow_up') }}</textarea>
+            </div>
+
+            <div class="mb-6">
+                <label class="form-label">Dokumentasi Foto (JPG/PNG, maks. 5 MB per file)</label>
+                <input type="file" name="documents[]" multiple accept=".jpg,.jpeg,.png"
+                    class="form-control @error('documents.*') !border-danger-600 @enderror">
+                @error('documents.*')<p class="text-danger-600 text-sm mt-1">{{ $message }}</p>@enderror
             </div>
 
             <div class="flex items-center gap-3">
