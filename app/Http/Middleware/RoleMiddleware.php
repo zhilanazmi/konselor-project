@@ -12,7 +12,7 @@ class RoleMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  Closure(Request): (Response)  $next
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
@@ -23,17 +23,9 @@ class RoleMiddleware
         $userRole = $request->user()->role;
 
         foreach ($roles as $role) {
-            // Handle both string and enum comparison
-            if ($userRole instanceof UserRole) {
-                // If user role is enum, compare with enum value
-                if ($userRole->value === $role) {
-                    return $next($request);
-                }
-            } else {
-                // If user role is string, compare directly
-                if ($userRole === $role) {
-                    return $next($request);
-                }
+            $enumRole = UserRole::tryFrom($role);
+            if ($enumRole && $userRole === $enumRole) {
+                return $next($request);
             }
         }
 

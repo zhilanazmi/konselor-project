@@ -8,7 +8,7 @@
         <h6 class="text-lg font-semibold mb-0">Form Tambah Sesi Konseling Individual</h6>
     </div>
     <div class="card-body">
-        <form action="{{ route('guru-bk.individual-counselings.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('guru-bk.individual-counselings.store') }}" method="POST">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -99,30 +99,9 @@
                 <textarea id="result" name="result" rows="3" class="form-control" placeholder="Hasil yang dicapai dalam sesi ini...">{{ old('result') }}</textarea>
             </div>
 
-            <div class="mb-4">
-                <label for="evaluation" class="form-label">Evaluasi</label>
-                <textarea id="evaluation" name="evaluation" rows="3" class="form-control" placeholder="Evaluasi pelaksanaan konseling...">{{ old('evaluation') }}</textarea>
-            </div>
-
-            <div class="mb-4">
-                <label for="follow_up" class="form-label">Tindak Lanjut</label>
-                <textarea id="follow_up" name="follow_up" rows="3" class="form-control" placeholder="Tindak lanjut yang akan dilakukan...">{{ old('follow_up') }}</textarea>
-            </div>
-
             <div class="mb-6">
                 <label for="follow_up_plan" class="form-label">Rencana Tindak Lanjut</label>
-                <textarea id="follow_up_plan" name="follow_up_plan" rows="2" class="form-control" placeholder="Rencana tindak lanjut setelah sesi ini...">{{ old('follow_up_plan') }}</textarea>
-            </div>
-
-            {{-- Upload Dokumentasi --}}
-            <div class="mb-6">
-                <label class="form-label">Dokumentasi Foto (JPG/PNG, maks. 5 MB per file)</label>
-                <input type="file" name="documents[]" multiple accept=".jpg,.jpeg,.png"
-                    class="form-control @error('documents.*') !border-danger-600 @enderror">
-                @error('documents.*')
-                    <p class="text-danger-600 text-sm mt-1">{{ $message }}</p>
-                @enderror
-                <p class="text-xs text-neutral-400 mt-1">Bisa memilih lebih dari satu file sekaligus.</p>
+                <textarea id="follow_up_plan" name="follow_up_plan" rows="3" class="form-control" placeholder="Rencana tindak lanjut setelah sesi ini...">{{ old('follow_up_plan') }}</textarea>
             </div>
 
             <div class="flex items-center gap-3">

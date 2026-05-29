@@ -23,10 +23,7 @@ class StoreHomeroomConsultationRequest extends FormRequest
             'consultation_date' => ['required', 'date'],
             'topic' => ['required', 'string'],
             'recommendation' => ['nullable', 'string'],
-            'evaluation' => ['nullable', 'string'],
             'follow_up' => ['nullable', 'string'],
-            'documents' => ['nullable', 'array'],
-            'documents.*' => ['file', 'mimes:jpg,jpeg,png', 'max:5120'],
         ];
     }
 
@@ -45,8 +42,6 @@ class StoreHomeroomConsultationRequest extends FormRequest
             'consultation_date.required' => 'Tanggal konsultasi wajib diisi.',
             'consultation_date.date' => 'Tanggal konsultasi tidak valid.',
             'topic.required' => 'Topik wajib diisi.',
-            'documents.*.mimes' => 'Format file tidak didukung. Gunakan JPG atau PNG.',
-            'documents.*.max' => 'Ukuran file maksimal 5 MB.',
         ];
     }
 }

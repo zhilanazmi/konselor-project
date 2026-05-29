@@ -23,12 +23,8 @@ class UpdateGroupCounselingRequest extends FormRequest
             'method' => ['nullable', 'string'],
             'scheduled_at' => ['required', 'date'],
             'status' => ['required', 'in:scheduled,ongoing,completed'],
-            'service_type' => ['required', 'in:group,classroom,large_class'],
             'result' => ['nullable', 'string'],
             'evaluation' => ['nullable', 'string'],
-            'follow_up' => ['nullable', 'string'],
-            'documents' => ['nullable', 'array'],
-            'documents.*' => ['file', 'mimes:jpg,jpeg,png', 'max:5120'],
         ];
     }
 
@@ -46,10 +42,6 @@ class UpdateGroupCounselingRequest extends FormRequest
             'scheduled_at.date' => 'Tanggal & waktu sesi tidak valid.',
             'status.required' => 'Status wajib dipilih.',
             'status.in' => 'Status tidak valid.',
-            'service_type.required' => 'Jenis layanan wajib dipilih.',
-            'service_type.in' => 'Jenis layanan tidak valid.',
-            'documents.*.mimes' => 'Format file tidak didukung. Gunakan JPG atau PNG.',
-            'documents.*.max' => 'Ukuran file maksimal 5 MB.',
         ];
     }
 }

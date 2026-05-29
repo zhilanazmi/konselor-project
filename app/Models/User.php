@@ -79,11 +79,6 @@ class User extends Authenticatable
         return $this->role === UserRole::GuruBk;
     }
 
-    public function isWaliKelas(): bool
-    {
-        return $this->role === UserRole::WaliKelas;
-    }
-
     public function isGuru(): bool
     {
         return $this->role === UserRole::Guru;

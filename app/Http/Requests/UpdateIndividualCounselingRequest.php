@@ -25,11 +25,7 @@ class UpdateIndividualCounselingRequest extends FormRequest
             'problem_description' => ['required', 'string'],
             'approach' => ['nullable', 'string'],
             'result' => ['nullable', 'string'],
-            'evaluation' => ['nullable', 'string'],
-            'follow_up' => ['nullable', 'string'],
             'follow_up_plan' => ['nullable', 'string'],
-            'documents' => ['nullable', 'array'],
-            'documents.*' => ['file', 'mimes:jpg,jpeg,png', 'max:5120'],
         ];
     }
 
@@ -50,8 +46,6 @@ class UpdateIndividualCounselingRequest extends FormRequest
             'category.required' => 'Kategori wajib dipilih.',
             'category.in' => 'Kategori tidak valid.',
             'problem_description.required' => 'Deskripsi masalah wajib diisi.',
-            'documents.*.mimes' => 'Format file tidak didukung. Gunakan JPG atau PNG.',
-            'documents.*.max' => 'Ukuran file maksimal 5 MB.',
         ];
     }
 }

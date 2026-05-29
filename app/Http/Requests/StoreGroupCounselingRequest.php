@@ -23,14 +23,10 @@ class StoreGroupCounselingRequest extends FormRequest
             'method' => ['nullable', 'string'],
             'scheduled_at' => ['required', 'date'],
             'status' => ['required', 'in:scheduled,ongoing,completed'],
-            'service_type' => ['required', 'in:group,classroom,large_class'],
             'result' => ['nullable', 'string'],
             'evaluation' => ['nullable', 'string'],
-            'follow_up' => ['nullable', 'string'],
-            'student_ids' => ['required', 'array', 'min:1'],
+            'student_ids' => ['nullable', 'array'],
             'student_ids.*' => ['exists:students,id'],
-            'documents' => ['nullable', 'array'],
-            'documents.*' => ['file', 'mimes:jpg,jpeg,png', 'max:5120'],
         ];
     }
 
@@ -48,13 +44,7 @@ class StoreGroupCounselingRequest extends FormRequest
             'scheduled_at.date' => 'Tanggal & waktu sesi tidak valid.',
             'status.required' => 'Status wajib dipilih.',
             'status.in' => 'Status tidak valid.',
-            'service_type.required' => 'Jenis layanan wajib dipilih.',
-            'service_type.in' => 'Jenis layanan tidak valid.',
-            'student_ids.required' => 'Minimal satu siswa harus dipilih.',
-            'student_ids.min' => 'Minimal satu siswa harus dipilih.',
             'student_ids.*.exists' => 'Salah satu siswa yang dipilih tidak ditemukan.',
-            'documents.*.mimes' => 'Format file tidak didukung. Gunakan JPG atau PNG.',
-            'documents.*.max' => 'Ukuran file maksimal 5 MB.',
         ];
     }
 }

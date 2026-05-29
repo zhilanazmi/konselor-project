@@ -24,13 +24,8 @@ class UpdateParentConsultationRequest extends FormRequest
             'status' => ['required', 'in:requested,scheduled,completed'],
             'requested_by' => ['required', 'in:guru_bk,orang_tua'],
             'topic' => ['required', 'string'],
-            'notes' => ['nullable', 'string'],
             'result' => ['nullable', 'string'],
-            'evaluation' => ['nullable', 'string'],
-            'follow_up' => ['nullable', 'string'],
             'agreement' => ['nullable', 'string'],
-            'documents' => ['nullable', 'array'],
-            'documents.*' => ['file', 'mimes:jpg,jpeg,png', 'max:5120'],
         ];
     }
 
@@ -53,8 +48,6 @@ class UpdateParentConsultationRequest extends FormRequest
             'requested_by.required' => 'Pemohon wajib dipilih.',
             'requested_by.in' => 'Pemohon tidak valid.',
             'topic.required' => 'Topik konsultasi wajib diisi.',
-            'documents.*.mimes' => 'Format file tidak didukung. Gunakan JPG atau PNG.',
-            'documents.*.max' => 'Ukuran file maksimal 5 MB.',
         ];
     }
 }

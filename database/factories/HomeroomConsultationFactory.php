@@ -3,14 +3,13 @@
 namespace Database\Factories;
 
 use App\Models\AcademicYear;
-use App\Models\HomeroomConsultation;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<HomeroomConsultation>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\HomeroomConsultation>
  */
 class HomeroomConsultationFactory extends Factory
 {

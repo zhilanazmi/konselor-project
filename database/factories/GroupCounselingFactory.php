@@ -3,12 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\AcademicYear;
-use App\Models\GroupCounseling;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<GroupCounseling>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\GroupCounseling>
  */
 class GroupCounselingFactory extends Factory
 {

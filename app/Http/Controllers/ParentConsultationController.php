@@ -5,20 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreParentConsultationRequest;
 use App\Http\Requests\UpdateParentConsultationRequest;
 use App\Models\AcademicYear;
-use App\Models\CounselingDocument;
 use App\Models\Guardian;
 use App\Models\ParentConsultation;
-use App\Models\SchoolSetting;
 use App\Models\Student;
-use App\Services\CounselingDocumentService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ParentConsultationController extends Controller
 {
-    public function __construct(private readonly CounselingDocumentService $documentService) {}
-
     public function index(Request $request): View
     {
         $consultations = ParentConsultation::query()
@@ -63,31 +58,22 @@ class ParentConsultationController extends Controller
 
     public function store(StoreParentConsultationRequest $request): RedirectResponse
     {
-        $validated = $request->safe()->except(['documents']);
+        $validated = $request->validated();
         $validated['counselor_id'] = auth()->id();
 
-        $consultation = ParentConsultation::query()->create($validated);
-
-        if ($request->hasFile('documents')) {
-            $this->documentService->storeDocuments($consultation, $request->file('documents'));
-        }
+        ParentConsultation::query()->create($validated);
 
         return redirect()
-            ->route('guru-bk.parent-consultations.show', $consultation)
+            ->route('guru-bk.parent-consultations.index')
             ->with('success', 'Data konsultasi orang tua berhasil ditambahkan.');
     }
 
     public function show(ParentConsultation $parentConsultation): View
     {
-        $parentConsultation->load(['guardian', 'student', 'counselor', 'academicYear', 'documents']);
-
-        $principalName = SchoolSetting::getPrincipalName();
-        $principalNip = SchoolSetting::getPrincipalNip();
+        $parentConsultation->load(['guardian', 'student', 'counselor', 'academicYear']);
 
         return view('parent-consultations.show', [
             'consultation' => $parentConsultation,
-            'principalName' => $principalName,
-            'principalNip' => $principalNip,
             'pageTitle' => 'Detail Konsultasi Orang Tua',
             'activePage' => 'Konsultasi Orang Tua',
         ]);
@@ -95,7 +81,6 @@ class ParentConsultationController extends Controller
 
     public function edit(ParentConsultation $parentConsultation): View
     {
-        $parentConsultation->load('documents');
         $academicYears = AcademicYear::query()->orderByDesc('start_date')->get();
         $guardians = Guardian::query()->orderBy('full_name')->get();
         $students = Student::query()->orderBy('full_name')->get();
@@ -112,11 +97,7 @@ class ParentConsultationController extends Controller
 
     public function update(UpdateParentConsultationRequest $request, ParentConsultation $parentConsultation): RedirectResponse
     {
-        $parentConsultation->update($request->safe()->except(['documents']));
-
-        if ($request->hasFile('documents')) {
-            $this->documentService->storeDocuments($parentConsultation, $request->file('documents'));
-        }
+        $parentConsultation->update($request->validated());
 
         return redirect()
             ->route('guru-bk.parent-consultations.show', $parentConsultation)
@@ -125,43 +106,10 @@ class ParentConsultationController extends Controller
 
     public function destroy(ParentConsultation $parentConsultation): RedirectResponse
     {
-        $this->documentService->deleteAllDocuments($parentConsultation);
         $parentConsultation->delete();
 
         return redirect()
             ->route('guru-bk.parent-consultations.index')
             ->with('success', 'Data konsultasi orang tua berhasil dihapus.');
-    }
-
-    public function destroyDocument(ParentConsultation $parentConsultation, CounselingDocument $document): RedirectResponse
-    {
-        $this->documentService->deleteDocument($document);
-
-        return back()->with('success', 'Dokumen berhasil dihapus.');
-    }
-
-    public function printPdf(ParentConsultation $parentConsultation): View
-    {
-        $parentConsultation->load(['guardian', 'student', 'counselor', 'academicYear', 'documents']);
-
-        $principalName = SchoolSetting::getPrincipalName();
-        $principalNip = SchoolSetting::getPrincipalNip();
-
-        $homeroomTeacher = null;
-        $classroom = $parentConsultation->student->classrooms()
-            ->where('academic_year_id', $parentConsultation->academic_year_id)
-            ->with('homeroomTeacher')
-            ->first();
-
-        if ($classroom) {
-            $homeroomTeacher = $classroom->homeroomTeacher;
-        }
-
-        return view('parent-consultations.pdf', [
-            'consultation' => $parentConsultation,
-            'principalName' => $principalName,
-            'principalNip' => $principalNip,
-            'homeroomTeacher' => $homeroomTeacher,
-        ]);
     }
 }
