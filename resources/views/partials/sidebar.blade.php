@@ -96,6 +96,42 @@
             <span>Konsultasi Orang Tua</span>
           </a>
         </li>
+        @php
+          $pendingRequestsCount = \App\Models\CounselingRequest::query()->where('status', 'pending')->count();
+        @endphp
+        <li>
+          <a href="{{ route('guru-bk.counseling-requests.index') }}" class="{{ request()->routeIs('guru-bk.counseling-requests.*') ? 'active-page' : '' }} flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <iconify-icon icon="solar:inbox-line-bold" class="menu-icon"></iconify-icon>
+              <span>Permohonan Konseling</span>
+            </div>
+            @if($pendingRequestsCount > 0)
+              <span class="px-2 py-0.5 text-xs font-semibold bg-warning-100 text-warning-700 dark:bg-warning-900/30 dark:text-warning-400 rounded-full">{{ $pendingRequestsCount }}</span>
+            @endif
+          </a>
+        </li>
+      @endif
+
+      {{-- Siswa: Layanan Mandiri --}}
+      @if(auth()->user()->role === \App\Enums\UserRole::Siswa)
+        <li class="sidebar-menu-group-title">Layanan Mandiri</li>
+        <li>
+          <a href="{{ route('siswa.counseling-requests.index') }}" class="{{ request()->routeIs('siswa.counseling-requests.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:chat-round-dots-bold" class="menu-icon"></iconify-icon>
+            <span>Pengajuan Konseling</span>
+          </a>
+        </li>
+      @endif
+
+      {{-- Orang Tua: Layanan Wali --}}
+      @if(auth()->user()->role === \App\Enums\UserRole::OrangTua)
+        <li class="sidebar-menu-group-title">Layanan Wali</li>
+        <li>
+          <a href="{{ route('orang-tua.counseling-requests.index') }}" class="{{ request()->routeIs('orang-tua.counseling-requests.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:users-group-rounded-bold" class="menu-icon"></iconify-icon>
+            <span>Pengajuan Konseling Anak</span>
+          </a>
+        </li>
       @endif
 
     </ul>

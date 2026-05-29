@@ -3,6 +3,7 @@
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\CounselingRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupCounselingController;
 use App\Http\Controllers\GuardianController;
@@ -55,5 +56,20 @@ Route::middleware('auth')->group(function () {
         Route::resource('homeroom-consultations', HomeroomConsultationController::class);
         Route::resource('subject-teacher-consultations', SubjectTeacherConsultationController::class);
         Route::resource('parent-consultations', ParentConsultationController::class);
+
+        // Counseling Requests for Guru BK
+        Route::resource('counseling-requests', CounselingRequestController::class)->only(['index', 'show']);
+        Route::post('counseling-requests/{counselingRequest}/approve', [CounselingRequestController::class, 'approve'])->name('counseling-requests.approve');
+        Route::post('counseling-requests/{counselingRequest}/reject', [CounselingRequestController::class, 'reject'])->name('counseling-requests.reject');
+    });
+
+    // Siswa Routes for Counseling Requests
+    Route::middleware('role:siswa')->prefix('siswa')->name('siswa.')->group(function () {
+        Route::resource('counseling-requests', CounselingRequestController::class)->only(['index', 'create', 'store', 'show']);
+    });
+
+    // Orang Tua Routes for Counseling Requests
+    Route::middleware('role:orang_tua')->prefix('orang-tua')->name('orang-tua.')->group(function () {
+        Route::resource('counseling-requests', CounselingRequestController::class)->only(['index', 'create', 'store', 'show']);
     });
 });
