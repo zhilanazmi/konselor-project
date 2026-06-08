@@ -110,6 +110,13 @@
             @endif
           </a>
         </li>
+        <li class="sidebar-menu-group-title">Administrasi</li>
+        <li>
+          <a href="{{ route('guru-bk.guru-bk-journals.index') }}" class="{{ request()->routeIs('guru-bk.guru-bk-journals.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:notebook-bold" class="menu-icon"></iconify-icon>
+            <span>Jurnal Kegiatan</span>
+          </a>
+        </li>
       @endif
 
       {{-- Siswa: Layanan Mandiri --}}

@@ -8,8 +8,10 @@ use App\Models\AcademicYear;
 use App\Models\Guardian;
 use App\Models\ParentConsultation;
 use App\Models\Student;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class ParentConsultationController extends Controller
@@ -111,5 +113,19 @@ class ParentConsultationController extends Controller
         return redirect()
             ->route('guru-bk.parent-consultations.index')
             ->with('success', 'Data konsultasi orang tua berhasil dihapus.');
+    }
+
+    public function exportPdf(ParentConsultation $parentConsultation): Response
+    {
+        $parentConsultation->load(['guardian', 'student', 'counselor', 'academicYear']);
+
+        $pdf = Pdf::loadView('parent-consultations.pdf', [
+            'consultation' => $parentConsultation,
+            'school' => config('school'),
+        ])->setPaper('a4', 'portrait');
+
+        $filename = 'laporan-konsultasi-orang-tua-'.$parentConsultation->id.'.pdf';
+
+        return $pdf->download($filename);
     }
 }

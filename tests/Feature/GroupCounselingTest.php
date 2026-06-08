@@ -223,6 +223,17 @@ class GroupCounselingTest extends TestCase
         $this->assertDatabaseMissing('group_counselings', ['id' => $counseling->id]);
     }
 
+    public function test_guru_bk_can_export_pdf(): void
+    {
+        $guruBk = User::factory()->guruBk()->create();
+        $counseling = GroupCounseling::factory()->create(['counselor_id' => $guruBk->id]);
+
+        $response = $this->actingAs($guruBk)->get(route('guru-bk.group-counselings.pdf', $counseling));
+
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/pdf');
+    }
+
     public function test_non_guru_bk_cannot_access_group_counselings(): void
     {
         $admin = User::factory()->admin()->create();

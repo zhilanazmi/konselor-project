@@ -35,6 +35,10 @@
                     <iconify-icon icon="solar:pen-bold" class="text-base"></iconify-icon>
                     Edit
                 </a>
+                <a href="{{ route('guru-bk.parent-consultations.pdf', $consultation) }}" target="_blank" class="btn btn-outline-secondary !rounded-lg flex items-center gap-2 !py-1.5 !text-sm">
+                    <iconify-icon icon="solar:printer-bold" class="text-base"></iconify-icon>
+                    Cetak PDF
+                </a>
                 <form action="{{ route('guru-bk.parent-consultations.destroy', $consultation) }}" method="POST" onsubmit="return confirm('Hapus data konsultasi ini?')">
                     @csrf
                     @method('DELETE')

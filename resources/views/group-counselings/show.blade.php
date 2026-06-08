@@ -45,6 +45,10 @@
                     <iconify-icon icon="solar:pen-bold" class="text-base"></iconify-icon>
                     Edit
                 </a>
+                <a href="{{ route('guru-bk.group-counselings.pdf', $counseling) }}" target="_blank" class="btn btn-outline-secondary !rounded-lg flex items-center gap-2 !py-1.5 !text-sm">
+                    <iconify-icon icon="solar:printer-bold" class="text-base"></iconify-icon>
+                    Cetak PDF
+                </a>
                 <form action="{{ route('guru-bk.group-counselings.destroy', $counseling) }}" method="POST" onsubmit="return confirm('Hapus sesi konseling kelompok ini beserta semua data peserta?')">
                     @csrf
                     @method('DELETE')

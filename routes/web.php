@@ -7,6 +7,7 @@ use App\Http\Controllers\CounselingRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupCounselingController;
 use App\Http\Controllers\GuardianController;
+use App\Http\Controllers\GuruBkJournalController;
 use App\Http\Controllers\GuruPortalController;
 use App\Http\Controllers\HomeroomConsultationController;
 use App\Http\Controllers\IndividualCounselingController;
@@ -64,6 +65,13 @@ Route::middleware('auth')->group(function () {
         Route::resource('counseling-requests', CounselingRequestController::class)->only(['index', 'show']);
         Route::post('counseling-requests/{counselingRequest}/approve', [CounselingRequestController::class, 'approve'])->name('counseling-requests.approve');
         Route::post('counseling-requests/{counselingRequest}/reject', [CounselingRequestController::class, 'reject'])->name('counseling-requests.reject');
+
+        // PDF Exports
+        Route::get('group-counselings/{groupCounseling}/pdf', [GroupCounselingController::class, 'exportPdf'])->name('group-counselings.pdf');
+        Route::get('parent-consultations/{parentConsultation}/pdf', [ParentConsultationController::class, 'exportPdf'])->name('parent-consultations.pdf');
+
+        // Jurnal Kegiatan Guru BK
+        Route::resource('guru-bk-journals', GuruBkJournalController::class);
     });
 
     // Siswa Routes

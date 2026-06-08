@@ -166,6 +166,17 @@ class ParentConsultationTest extends TestCase
         $this->assertDatabaseMissing('parent_consultations', ['id' => $consultation->id]);
     }
 
+    public function test_guru_bk_can_export_pdf(): void
+    {
+        $guruBk = User::factory()->guruBk()->create();
+        $consultation = ParentConsultation::factory()->create(['counselor_id' => $guruBk->id]);
+
+        $response = $this->actingAs($guruBk)->get(route('guru-bk.parent-consultations.pdf', $consultation));
+
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/pdf');
+    }
+
     public function test_non_guru_bk_cannot_access_parent_consultations(): void
     {
         $admin = User::factory()->admin()->create();

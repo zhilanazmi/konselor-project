@@ -7,8 +7,10 @@ use App\Http\Requests\UpdateGroupCounselingRequest;
 use App\Models\AcademicYear;
 use App\Models\GroupCounseling;
 use App\Models\Student;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class GroupCounselingController extends Controller
@@ -155,5 +157,19 @@ class GroupCounselingController extends Controller
         ]);
 
         return back()->with('success', 'Catatan peserta berhasil diperbarui.');
+    }
+
+    public function exportPdf(GroupCounseling $groupCounseling): Response
+    {
+        $groupCounseling->load(['counselor', 'academicYear', 'participants']);
+
+        $pdf = Pdf::loadView('group-counselings.pdf', [
+            'counseling' => $groupCounseling,
+            'school' => config('school'),
+        ])->setPaper('a4', 'portrait');
+
+        $filename = 'laporan-konseling-kelompok-'.$groupCounseling->id.'.pdf';
+
+        return $pdf->download($filename);
     }
 }
