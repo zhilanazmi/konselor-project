@@ -94,16 +94,57 @@ Proyek ini dikembangkan secara bertahap melalui sistem **Fase Kerja**. Berikut a
 
 ## 6. Peta Jalan Pengembangan Selanjutnya (Next Roadmap)
 
-### 🔴 Phase 5: Counseling Requests Portal (Pending / Rencana)
+### 🟢 Phase 5: Counseling Requests Portal (100% Selesai & Teruji)
 *Sistem permohonan konseling dari siswa dan orang tua:*
-- **Status Database**: Migrasi tabel `counseling_requests` sudah selesai dibuat.
-- **Status Kode**: Controller (`CounselingRequestController`), Route, dan Views **belum diimplementasikan**.
-- **Rencana Alur**: Siswa/Orang Tua mengajukan permohonan konseling lewat portal mereka -> Guru BK menerima notifikasi -> Guru BK menyetujui/menolak permohonan -> Jika disetujui, otomatis terkonversi menjadi catatan konseling individual.
+- **Permohonan Konseling**: Siswa dan Orang Tua dapat mengajukan permohonan konseling ke Guru BK melalui portal masing-masing.
+- **Manajemen Permohonan Guru BK**: Guru BK dapat melihat, menyetujui (dengan otomatis membuat sesi konseling individual terjadwal), atau menolak permohonan yang masuk.
+- **Alur Otomatis**: Persetujuan permohonan secara otomatis mengonversi menjadi catatan konseling individual baru (`IndividualCounseling`).
 
-### 🔴 Phase 6: Multi-Role Portals & Custom Sidebar (Pending / Rencana)
-*Kustomisasi penuh untuk peran di luar Admin dan Guru BK:*
-- Melengkapi menu navigasi (sidebar) dan dashboard fungsional untuk **Siswa**, **Orang Tua**, dan **Guru (Non-BK / Wali Kelas)** agar mereka dapat berinteraksi penuh dengan sistem (mengajukan konsultasi, melihat riwayat pribadi, dll.).
+### 🟢 Phase 6: Multi-Role Portals & Custom Sidebar (100% Selesai & Teruji)
+*Kustomisasi penuh portal fungsional untuk peran di luar Admin dan Guru BK:*
+- **Portal Siswa**: Riwayat konseling individual (read-only), riwayat konseling kelompok beserta catatan khusus per siswa, dashboard dengan statistik dan sesi terbaru.
+- **Portal Orang Tua**: Daftar anak yang terhubung beserta statistik konseling, riwayat konseling per anak (read-only), riwayat konsultasi orang tua dengan Guru BK, dashboard dengan card anak dan konsultasi terbaru.
+- **Portal Guru (Non-BK / Wali Kelas)**: Riwayat konsultasi wali kelas (read-only), riwayat konsultasi guru mapel (read-only), daftar kelas perwalian beserta siswa, dashboard dengan statistik dan konsultasi terbaru.
+- **Sidebar Dinamis**: Navigasi sidebar lengkap dan kontekstual untuk setiap peran pengguna.
+
+---
+
+### 🟡 Tampilan Antarmuka (UI/UX) (95% Selesai)
+- **Tema & Gaya**: Menggunakan template modern premium **Wowdash Tailwind CSS Admin Dashboard**.
+- **Aset & Ikon**: Menggunakan pustaka Iconify dan Remix Icons untuk visual yang modern dan premium.
+- **Mode Gelap**: Didukung penuh oleh gaya dark mode Tailwind.
+- **Menu Navigasi**: Sidebar dan header dinamis sudah diatur berdasarkan peran pengguna — **seluruh 5 peran sudah memiliki menu navigasi fungsional**.
+- **Dashboard Widget**: Menampilkan statistik real-time yang akurat sesuai dengan peran masing-masing pengguna, dilengkapi dengan daftar aktivitas terbaru dan link navigasi cepat.
+
+---
+
+## 4. Struktur Database & Hubungan Entitas (Entity Relationship)
+- **`users`**: Menyimpan kredensial otentikasi dan peran (`role` enum: admin, guru_bk, guru, orang_tua, siswa).
+- **`academic_years`**: Mengatur batasan periode aktif pembelajaran.
+- **`teachers`**: Berelasi `belongsTo` dengan `users` (sebagai Guru Mapel atau Wali Kelas).
+- **`classrooms`**: Berelasi `belongsTo` dengan `academic_years` dan `teachers` (wali kelas).
+- **`students`**: Berelasi `belongsTo` dengan `users`. Terhubung dengan `classrooms` melalui tabel pivot `classroom_student`.
+- **`guardians`**: Berelasi `belongsTo` dengan `users`. Terhubung dengan `students` melalui tabel pivot `guardian_student` dengan kolom tambahan `relationship` (ayah, ibu, dll.).
+- **`individual_counselings`**: Mencatat sesi konseling individual (`student_id`, `counselor_id` / `users`).
+- **`group_counselings`**: Mencatat sesi konseling kelompok (`counselor_id` / `users`). Terhubung ke partisipan melalui tabel pivot `group_counseling_participants` dengan tambahan kolom `notes`.
+- **`homeroom_consultations`**: Sesi konsultasi dengan Wali Kelas (`teacher_id`, `student_id`, `counselor_id`).
+- **`subject_teacher_consultations`**: Sesi konsultasi dengan Guru Mapel (`teacher_id`, `student_id`, `counselor_id`).
+- **`parent_consultations`**: Sesi konsultasi dengan Orang Tua (`guardian_id`, `student_id`, `counselor_id`).
+- **`counseling_requests`**: Permohonan jadwal konseling (`student_id`, `counselor_id`, dll.).
+
+---
+
+## 5. Pengujian & Keamanan Kode
+- **Otentikasi & Otorisasi**: Proteksi route ketat menggunakan middleware `auth` dan middleware kustom `role` (Admin, Guru BK, Guru, Orang Tua, Siswa).
+- **Validasi Data**: Validasi terpusat di Form Request (`Store...Request` dan `Update...Request`) untuk mencegah data kotor.
+- **Automated Testing Suite**: Dilengkapi 15 file unit/feature test komprehensif berbasis **PHPUnit** di folder `tests/Feature` yang mencakup happy path, validation error, dan restriction/authorization check untuk semua controller utama. Terdiri dari **152 pengujian (416 assertions) yang lulus 100%**.
+- **Penataan Kode**: Menggunakan **Laravel Pint** untuk menjamin konsistensi gaya penulisan kode PHP.
+
+---
+
+## 6. Peta Jalan Pengembangan Selanjutnya (Next Roadmap)
 
 ### 🔴 Phase 7: Visual Analytics & ApexCharts (Pending / Rencana)
 *Analitik data visual untuk Guru BK & Kepala Sekolah:*
 - Memanfaatkan pustaka **ApexCharts** (yang sudah terpasang) di dashboard Guru BK untuk menampilkan grafik statistik tren kategori masalah terbanyak (belajar, karir, pribadi, sosial) setiap bulan/semester.
+

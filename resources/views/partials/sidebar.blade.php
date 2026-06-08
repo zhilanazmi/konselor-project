@@ -121,6 +121,19 @@
             <span>Pengajuan Konseling</span>
           </a>
         </li>
+        <li class="sidebar-menu-group-title">Riwayat Saya</li>
+        <li>
+          <a href="{{ route('siswa.counselings.index') }}" class="{{ request()->routeIs('siswa.counselings.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:user-speak-bold" class="menu-icon"></iconify-icon>
+            <span>Konseling Individual</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('siswa.group-counselings.index') }}" class="{{ request()->routeIs('siswa.group-counselings.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:users-group-rounded-bold" class="menu-icon"></iconify-icon>
+            <span>Konseling Kelompok</span>
+          </a>
+        </li>
       @endif
 
       {{-- Orang Tua: Layanan Wali --}}
@@ -128,8 +141,45 @@
         <li class="sidebar-menu-group-title">Layanan Wali</li>
         <li>
           <a href="{{ route('orang-tua.counseling-requests.index') }}" class="{{ request()->routeIs('orang-tua.counseling-requests.*') ? 'active-page' : '' }}">
-            <iconify-icon icon="solar:users-group-rounded-bold" class="menu-icon"></iconify-icon>
+            <iconify-icon icon="solar:chat-round-dots-bold" class="menu-icon"></iconify-icon>
             <span>Pengajuan Konseling Anak</span>
+          </a>
+        </li>
+        <li class="sidebar-menu-group-title">Monitoring Anak</li>
+        <li>
+          <a href="{{ route('orang-tua.children.index') }}" class="{{ request()->routeIs('orang-tua.children.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:users-group-rounded-bold" class="menu-icon"></iconify-icon>
+            <span>Informasi Anak</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('orang-tua.consultations.index') }}" class="{{ request()->routeIs('orang-tua.consultations.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:clipboard-list-bold" class="menu-icon"></iconify-icon>
+            <span>Riwayat Konsultasi</span>
+          </a>
+        </li>
+      @endif
+
+      {{-- Guru (Non-BK): Portal Guru --}}
+      @if(auth()->user()->role === \App\Enums\UserRole::Guru)
+        <li class="sidebar-menu-group-title">Konsultasi Saya</li>
+        <li>
+          <a href="{{ route('guru.homeroom-consultations.index') }}" class="{{ request()->routeIs('guru.homeroom-consultations.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:user-speak-bold" class="menu-icon"></iconify-icon>
+            <span>Konsultasi Wali Kelas</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('guru.subject-consultations.index') }}" class="{{ request()->routeIs('guru.subject-consultations.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:book-bold" class="menu-icon"></iconify-icon>
+            <span>Konsultasi Guru Mapel</span>
+          </a>
+        </li>
+        <li class="sidebar-menu-group-title">Kelas Perwalian</li>
+        <li>
+          <a href="{{ route('guru.classrooms.index') }}" class="{{ request()->routeIs('guru.classrooms.*') ? 'active-page' : '' }}">
+            <iconify-icon icon="solar:buildings-bold" class="menu-icon"></iconify-icon>
+            <span>Kelas Saya</span>
           </a>
         </li>
       @endif

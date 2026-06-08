@@ -7,9 +7,12 @@ use App\Http\Controllers\CounselingRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupCounselingController;
 use App\Http\Controllers\GuardianController;
+use App\Http\Controllers\GuruPortalController;
 use App\Http\Controllers\HomeroomConsultationController;
 use App\Http\Controllers\IndividualCounselingController;
+use App\Http\Controllers\OrangTuaPortalController;
 use App\Http\Controllers\ParentConsultationController;
+use App\Http\Controllers\SiswaCounselingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectTeacherConsultationController;
 use App\Http\Controllers\TeacherController;
@@ -63,13 +66,31 @@ Route::middleware('auth')->group(function () {
         Route::post('counseling-requests/{counselingRequest}/reject', [CounselingRequestController::class, 'reject'])->name('counseling-requests.reject');
     });
 
-    // Siswa Routes for Counseling Requests
+    // Siswa Routes
     Route::middleware('role:siswa')->prefix('siswa')->name('siswa.')->group(function () {
         Route::resource('counseling-requests', CounselingRequestController::class)->only(['index', 'create', 'store', 'show']);
+        Route::get('counselings', [SiswaCounselingController::class, 'index'])->name('counselings.index');
+        Route::get('counselings/{counseling}', [SiswaCounselingController::class, 'show'])->name('counselings.show');
+        Route::get('group-counselings', [SiswaCounselingController::class, 'groupIndex'])->name('group-counselings.index');
+        Route::get('group-counselings/{groupCounseling}', [SiswaCounselingController::class, 'groupShow'])->name('group-counselings.show');
     });
 
-    // Orang Tua Routes for Counseling Requests
+    // Orang Tua Routes
     Route::middleware('role:orang_tua')->prefix('orang-tua')->name('orang-tua.')->group(function () {
         Route::resource('counseling-requests', CounselingRequestController::class)->only(['index', 'create', 'store', 'show']);
+        Route::get('children', [OrangTuaPortalController::class, 'childrenIndex'])->name('children.index');
+        Route::get('children/{student}/counselings', [OrangTuaPortalController::class, 'childCounselings'])->name('children.counselings');
+        Route::get('children/{student}/counselings/{counseling}', [OrangTuaPortalController::class, 'childCounselingShow'])->name('children.counseling-show');
+        Route::get('consultations', [OrangTuaPortalController::class, 'consultationIndex'])->name('consultations.index');
+        Route::get('consultations/{consultation}', [OrangTuaPortalController::class, 'consultationShow'])->name('consultations.show');
+    });
+
+    // Guru (Non-BK) Routes
+    Route::middleware('role:guru')->prefix('guru')->name('guru.')->group(function () {
+        Route::get('homeroom-consultations', [GuruPortalController::class, 'homeroomConsultationIndex'])->name('homeroom-consultations.index');
+        Route::get('homeroom-consultations/{consultation}', [GuruPortalController::class, 'homeroomConsultationShow'])->name('homeroom-consultations.show');
+        Route::get('subject-consultations', [GuruPortalController::class, 'subjectConsultationIndex'])->name('subject-consultations.index');
+        Route::get('subject-consultations/{consultation}', [GuruPortalController::class, 'subjectConsultationShow'])->name('subject-consultations.show');
+        Route::get('classrooms', [GuruPortalController::class, 'classroomIndex'])->name('classrooms.index');
     });
 });
